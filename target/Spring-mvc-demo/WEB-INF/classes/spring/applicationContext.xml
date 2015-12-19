@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/cache 
+       http://www.springframework.org/schema/cache/spring-cache.xsd">
+       <!--引入配置文件 -->
+       <bean
+               class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+              <property name="locations">
+                     <list>
+                            <value>classpath*:conf/jdbc.properties
+                            </value>
+                     </list>
+              </property>
+       </bean>
+
+       <!--配置数据源 -->
+       <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+           destroy-method="close"> -->
+       <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+             destroy-method="close">
+              <property name="driverClass" value="${jdbc.driverClassName}" />
+              <property name="jdbcUrl" value="${jdbc.url}" />
+              <property name="user" value="${jdbc.username}" />
+              <property name="password" value="${jdbc.password}" />
+              <!--连接关闭时默认将所有未提交的操作回滚，默认为false -->
+              <property name="autoCommitOnClose" value="${c3p0.autoCommitOnClose}" />
+              <!--连接池中保留的最小连接数 -->
+              <property name="minPoolSize" value="${c3p0.minPoolSize}" />
+              <!--连接池中保留的最大连接数，默认为15 -->
+              <property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+              <!--初始化时获取的连接数，值应在最小和最大连接数之间 -->
+              <property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+              <!--最大空闲时间，超过空闲时间的连接将被丢弃。为0或负数则永不丢弃。默认为0 -->
+              <property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+              <!--当连接池中的连接用完时，C3P0一次性创建新的连接的数目 -->
+              <property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+              <!--定义在从数据库获取新连接失败后重新尝试获取的次数 -->
+              <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}" />
+              <!--当连接池用完时客户端调用getConnection（）后等待获取新连接的时间，超过后将抛出SQLException，如设置为0则无限期等待。单位毫秒，默认为0 -->
+              <property name="checkoutTimeout" value="${c3p0.checkoutTimeOut}" />
+       </bean>
+       <!--会话配置 -->
+       <bean id="sessionFactory"
+             class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+              <property name="dataSource" ref="dataSource" />
+              <property name="hibernateProperties">
+                     <props>
+                            <prop key="hibernate.show_sql">${hibernate.showsql}</prop>
+                            <prop key="hibernate.format_sql">${hibernate.formatsql}</prop>
+                            <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                            <prop key="hibernate.autoReconnect">true</prop>
+                     </props>
+              </property>
+              <property name="annotatedClasses">
+                     <list>
+                            <value>com.eastsoft.building.entity.TsysResourceEntity</value>
+                            <value>com.eastsoft.building.entity.TsysRoleEntity</value>
+                            <value>com.eastsoft.building.entity.TsysRoleResourseEntity</value>
+                            <value>com.eastsoft.building.entity.TsysUserEntity</value>
+                            <value>com.eastsoft.building.entity.TusrDeptEntity</value>
+                            <value>com.eastsoft.building.entity.TusrDeviceEntity</value>
+                            <value>com.eastsoft.building.entity.TusrGatewayEntity</value>
+                            <value>com.eastsoft.building.entity.TusrRoomEntity</value>
+                            <value>com.eastsoft.building.entity.TusrUserDeptEntity</value>
+                            <value>com.eastsoft.building.entity.TusrUserRoomEntity</value>
+                     </list>
+              </property>
+       </bean>
+       <!-- 设置需要进行Spring注解扫描的类包 -->
+       <context:component-scan base-package=".." />
+       <!--事务管理 -->
+       <bean id="transactionManager"
+             class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+              <property name="sessionFactory" ref="sessionFactory" />
+       </bean>
+
+       <!-- 配置事务传播特性 -->
+       <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+              <tx:attributes>
+
+                     <tx:method name="save*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="sync*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="delete*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="del*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="update*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="push*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="do*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" />
+                     <tx:method name="qry*" propagation="REQUIRED"
+                                rollback-for="Exception,RuntimeException" read-only="true" />
+                     <tx:method name="get*" read-only="true" />
+                     <tx:method name="load*" read-only="true" />
+                     <tx:method name="find*" read-only="true" />
+                     <tx:method name="*" read-only="true" />
+              </tx:attributes>
+       </tx:advice>
+
+       <!-- 配置哪些类的哪些方法参与事务 -->
+       <aop:config>
+              <aop:advisor pointcut="execution(* com.eastsoft.building.*.service..*.*(..))"
+                           advice-ref="transactionAdvice" />
+       </aop:config>
+</beans>

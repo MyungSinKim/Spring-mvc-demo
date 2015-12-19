@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - es_building_ctrl@129.1.77.15" uuid="868703b7-7afd-4f92-8236-3375e00a1584">
+    <database-info product="MySQL" version="5.1.6-alpha-nt-max" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="es_building_ctrl"/>
+    <table name="tsys_resource" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="resid" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="resname" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="path" sqlType="VARCHAR" precision="512" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="flag" sqlType="VARCHAR" precision="2" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="MDrkuI3lj6/nlKggICAx77ya5Y+v55So"/>
+      <column name="remark" sqlType="VARCHAR" precision="512" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="tsys_role_resourse_ibfk_2" table="tsys_role_resourse" schema="" catalog="es_building_ctrl" columns="resid"/>
+      <index name="resid" unique="false" columns="resid"/>
+    </table>
+    <table name="tsys_role" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="role_name" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="role_code" sqlType="VARCHAR" precision="1" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="MDrnrqHnkIblkZggIDHvvJrmma7pgJrnlKjmiLc="/>
+      <column name="add_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="update_time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="tsys_role_resourse_ibfk_1" table="tsys_role_resourse" schema="" catalog="es_building_ctrl" columns="role_code"/>
+      <exported-key name="tsys_user_ibfk_1" table="tsys_user" schema="" catalog="es_building_ctrl" columns="role_code"/>
+      <index name="role_code" unique="false" columns="role_code"/>
+    </table>
+    <table name="tsys_role_resourse" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="role_code" sqlType="VARCHAR" precision="1" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="resid" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tsys_role_resourse_ibfk_2" columns="resid" ref-table="tsys_resource" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="resid" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="tsys_role_resourse_ibfk_1" columns="role_code" ref-table="tsys_role" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="role_code" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="tsys_user" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="user_id" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="username" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="role_code" sqlType="VARCHAR" precision="1" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="55So5oi36KeS6Imy77yM566h55CG5ZGY5Li6MO+8jOaZrumAmueUqOaIt+S4ujE="/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tsys_user_ibfk_1" columns="role_code" ref-table="tsys_role" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="role_code" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="tusr_user_dept_ibfk_1" table="tusr_user_dept" schema="" catalog="es_building_ctrl" columns="user_id"/>
+      <exported-key name="tusr_user_room_ibfk_1" table="tusr_user_room" schema="" catalog="es_building_ctrl" columns="user_id"/>
+      <index name="user_id" unique="false" columns="user_id"/>
+    </table>
+    <table name="tusr_dept" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="dept_name" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="dept_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="parent_code" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="description" sqlType="VARCHAR" precision="512" scale="0" nullable="true" jdbcType="12"/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="tusr_gateway_ibfk_1" table="tusr_gateway" schema="" catalog="es_building_ctrl" columns="dept_code"/>
+      <exported-key name="tusr_room_ibfk_1" table="tusr_room" schema="" catalog="es_building_ctrl" columns="dept_code"/>
+      <exported-key name="tusr_user_dept_ibfk_2" table="tusr_user_dept" schema="" catalog="es_building_ctrl" columns="dept_code"/>
+      <index name="dept_code" unique="false" columns="dept_code"/>
+    </table>
+    <table name="tusr_device" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="aid" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="sid" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="gid" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="device_name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="device_type_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="room_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="state" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="param" sqlType="VARCHAR" precision="512" scale="0" nullable="true" jdbcType="12"/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tusr_device_ibfk_1" columns="room_code" ref-table="tusr_room" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="room_code" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="tusr_gateway" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="gid" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="gateway_name" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="login_name" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="login_pass" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="dept_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="remark" sqlType="VARCHAR" precision="512" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tusr_gateway_ibfk_1" columns="dept_code" ref-table="tusr_dept" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="dept_code" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="tusr_room" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="room_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="room_name" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="dept_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="room_type" sqlType="VARCHAR" precision="2" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="remark" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tusr_room_ibfk_1" columns="dept_code" ref-table="tusr_dept" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="dept_code" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="tusr_device_ibfk_1" table="tusr_device" schema="" catalog="es_building_ctrl" columns="room_code"/>
+      <exported-key name="tusr_user_room_ibfk_2" table="tusr_user_room" schema="" catalog="es_building_ctrl" columns="room_code"/>
+      <index name="room_code" unique="false" columns="room_code"/>
+    </table>
+    <table name="tusr_user_dept" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="user_id" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="dept_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tusr_user_dept_ibfk_2" columns="dept_code" ref-table="tusr_dept" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="dept_code" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="tusr_user_dept_ibfk_1" columns="user_id" ref-table="tsys_user" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="tusr_user_room" schema="" catalog="es_building_ctrl" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="user_id" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="room_code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="tusr_user_room_ibfk_2" columns="room_code" ref-table="tusr_room" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="room_code" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="tusr_user_room_ibfk_1" columns="user_id" ref-table="tsys_user" ref-schema="" ref-catalog="es_building_ctrl" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+  </data-source>
+</component>
