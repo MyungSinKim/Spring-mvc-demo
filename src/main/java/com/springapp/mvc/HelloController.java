@@ -87,9 +87,9 @@ public class HelloController {
             map.put("product", "product" + i);
             map.put("time", (new Date()).toString());
             if (i % 2 == 0) {
-                map.put("state", "on");
+                map.put("state1", "on");
             } else {
-                map.put("state", "off");
+                map.put("state1", "off");
             }
             rows.add(map);
         }

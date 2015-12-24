@@ -26,8 +26,11 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            alert("sssss");
-            var myTable = $('#table').bootstrapTable({
+
+//            $("#result").load("test2.jsp");
+
+            var $table = $('#table');
+            $table.bootstrapTable({
 
                 method: "post",
                 url: 'datalist',
@@ -39,19 +42,19 @@
                 showExport: true,
 //                pageSize: 10,
 //            data: data,
+                height: $(window).height() - 50,
                 queryParams: queryParams,
                 columns: [{'field': 'state', checkbox: true},
                     {'field': 'no', 'title': '编号'},
                     {'field': 'product', 'title': '产品'},
                     {'field': 'time', 'title': '交付时间'},
-                    {'field': 'state', 'title': '状态'}],
+                    {'field': 'state1', 'title': '状态'}],
                 onPageChange: function (number, size) {
-                    alert(number + "+" + size);
+
                 }
 
 
             });
-            var $table = $('#table');
 
             $('#toolbar').find('select').change(function () {
                 $table.bootstrapTable('refreshOptions', {
@@ -60,7 +63,6 @@
             });
 
             function queryParams(params) {
-                alert(params.toLocaleString());
                 return {
 
                     pageSize: params.limit,
@@ -83,8 +85,7 @@
             //                    });
 
 
-        })
-        ;
+        });
 
     </script>
 
@@ -92,32 +93,44 @@
 
 
 <body>
+<div class="container-fluid">
+    <div class="row" style="height: 50px">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div id="result" class="panel-body"></div>
+            </div>
+        </div>
 
-
-<%-- <table id="table" data-toggle="table" data-url="getData" data-pagination="true"
-        data-side-pagination="server"
-        data-page-size="10"
-        data-page-list="[5, 10, 20, 50, 100, 200]"
-        data-height="300">
-     <thead>
-     <tr>
-         <th data-field="state" data-checkbox="true"></th>
-         <th class="col-xs-1" data-field="no">编号</th>
-         <th class="col-xs-2" data-field="product">产品</th>
-         <th class="col-xs-4" data-field="time">交付时间</th>
-         <th class="col-xs-2" data-field="state">状态</th>
-     </tr>
-     </thead>
- </table>--%>
-<div class="container">
-    <div id="toolbar">
-        <select class="form-control">
-            <option value="">Export Basic</option>
-            <option value="all">Export All</option>
-            <option value="selected">Export Selected</option>
-        </select>
     </div>
-    <table id="table"></table>
+    <div class="row">
+        <div class="col-xs-3 ">
+            <div class="panel panel-primary">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="#">原始按钮</a></li>
+                    <li><a href="#">原始按钮</a></li>
+                    <li><a href="#">原始按钮</a></li>
+                    <li><a href="#">原始按钮</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-xs-9 ">
+            <div class="panel panel-primary">
+                <div id="toolbar">
+                    <select class="form-control">
+                        <%--<option value="">导出</option>--%>
+                        <option value="all">导出全部</option>
+                        <option value="selected">导出选中</option>
+                    </select>
+                </div>
+                <table id="table"></table>
+            </div>
+        </div>
+
+    </div>
+
 
 </div>
 
